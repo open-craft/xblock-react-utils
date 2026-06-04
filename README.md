@@ -18,6 +18,7 @@ pnpm add @opencraft/xblock-react-utils
 | `useHandlerUrl(name)`           | Hook that returns the URL for an XBlock handler.                                            |
 | `RuntimeContext`                | React context exposing `runtime` and `element` from the edX platform.                       |
 | `deriveColor(name, value)`      | Validates a hex color and returns a `CSSProperties` object.                                 |
+| `saveStudioBlock(params)`       | Saves XBlock Studio configuration via jQuery's `$.post` pattern, notifying the runtime on start, end, and error. |
 | `XBlockRuntime`, `XBlockConfig` | TypeScript types for the XBlock runtime and config.                                         |
 
 ### Testing utilities
