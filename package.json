@@ -1,0 +1,51 @@
+{
+  "name": "@opencraft/xblock-react-utils",
+  "version": "0.1.0",
+  "description": "Utilities, hooks and context for build Open edX XBlocks using React",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./testing": {
+      "import": "./dist/testing/index.js",
+      "types": "./dist/testing/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/testing/index.ts --format esm --dts --external vitest",
+    "lint": "oxfmt --check && eslint .",
+    "format": "oxfmt"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/jquery": "^3.5.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "globals": "^17.4.0",
+    "oxfmt": "^0.42.0",
+    "tsup": "^8.0.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.56.1"
+  },
+  "peerDependencies": {
+    "@testing-library/react": "^16.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-intl": "^6.0.0",
+    "vitest": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vitest": {
+      "optional": true
+    },
+    "@testing-library/react": {
+      "optional": true
+    }
+  }
+}
