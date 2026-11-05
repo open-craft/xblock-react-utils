@@ -1,10 +1,14 @@
 {
   "name": "@opencraft/xblock-react-utils",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Utilities, hooks and context for build Open edX XBlocks using React",
   "license": "Apache-2.0",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
-  "files": ["dist", "README.md", "LICENSE"],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -41,7 +45,8 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-intl": "^6.0.0",
-    "vitest": "^4.0.0"
+    "vitest": "^4.0.0",
+    "@types/jquery": "*"
   },
   "peerDependenciesMeta": {
     "vitest": {
