@@ -30,4 +30,3 @@ Import from `@opencraft/xblock-react-utils/testing`. Requires `vitest` and `@tes
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | `render`        | Wraps `@testing-library/react`'s render with `StrictMode` and `IntlProvider`. Also re-exports everything from `@testing-library/react`. |
 | `mockRuntime()` | Returns a mock `XBlockRuntime` with vitest spies.                                                                                       |
-| `stubJquery()`  | Stubs `$.post()` with a jQuery-style deferred for legacy edX patterns.                                                                  |
