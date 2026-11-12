@@ -1,4 +1,4 @@
-import React, { type CSSProperties, StrictMode } from "react";
+import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { IntlProvider } from "react-intl";
 import type { XBlockConfig, XBlockRuntime } from "./types.ts";
@@ -8,42 +8,24 @@ type JsrtFields = Record<`_jsrt${string}`, unknown>;
 
 /**
  * Copies all `_jsrt*` properties from source to target.
- * The XBlock iframe runtime injects these fields onto DOM elements; copying them
- * ensures they remain accessible after we extract the raw Element from a jQuery wrapper.
+ * The XBlock iframe runtime used by Content Libraries injects these fields onto DOM elements;
+ * copying them ensures they remain accessible after we extract the raw Element from a
+ * jQuery wrapper.
  */
-const copyJsrtFields = (target: Element, source: unknown): void => {
-  if (source === null || source === undefined) return;
-  if (typeof source !== "object" && typeof source !== "function") return;
+const copyJsrtFields = (target: Element, source: Element | JQuery<Element>): void => {
   for (const key of Object.getOwnPropertyNames(source)) {
     if (key.startsWith("_jsrt")) {
       const jsrtKey = key as `_jsrt${string}`;
-      (target as Element & JsrtFields)[jsrtKey] = (source as JsrtFields)[jsrtKey];
+      (target as Element & JsrtFields)[jsrtKey] = (source as unknown as JsrtFields)[jsrtKey];
     }
   }
-};
-
-/**
- * Converts a hex color value into a CSSProperties object.
- * Only accepts 6-digit hex colors (e.g. #a1b2c3); anything else is logged as an error and ignored.
- */
-export const deriveColor = (name: string, value: string): CSSProperties => {
-  if (!value) {
-    return {};
-  }
-  // Yes, some values would work here that aren't supported (i.e. #fff, rgb(0, 10, 20))
-  // We don't care. We're not using them.
-  if (value.match(/^#([0-9]|[a-f]){6}$/i)) {
-    return { color: value };
-  }
-  console.error(`Bogus color found for ${name}: ${value}`);
-  return {};
 };
 
 /**
  * Extracts the raw Element from a plain Element or jQuery wrapper, then copies
  * any _jsrt* runtime fields onto it before returning.
  */
-export const getRoot = (element: Element | JQuery<Element> | null): Element => {
+export const getRoot = (element: Element | JQuery<Element>): Element => {
   const container: Element | null =
     element && "jquery" in element ? (element as JQuery<Element>)[0] : element;
 
@@ -59,7 +41,7 @@ export const getRoot = (element: Element | JQuery<Element> | null): Element => {
   return container;
 };
 
-interface ThemeUrls {
+export interface ThemeUrls {
   core: {
     urls: {
       default: string;
@@ -107,7 +89,6 @@ const getThemes = async (mfe_config_api_url: string) => {
   return { core, theme };
 };
 
-const ENABLE_SHADOW_ROOT = true;
 // Re: The Shadow DOM
 // The Shadow DOM allows us to isolate the XBlock from the rest of the page. Any
 // Stylesheets we attach inside it will not affect outside content, and any outside
@@ -124,7 +105,7 @@ const ENABLE_SHADOW_ROOT = true;
 
 interface XBlockRootParams {
   runtime: XBlockRuntime;
-  element: Element | JQuery<Element> | null;
+  element: Element | JQuery<Element>;
   config: XBlockConfig;
   styles?: string;
 }
@@ -141,22 +122,15 @@ export const createXBlockRoot =
   async (children: React.ReactNode) => {
     const { core, theme } = await getThemes(config.mfe_config_api);
     const rootElement = getRoot(element);
-    let shadowRoot = null;
     let root = rootElement;
-    if (ENABLE_SHADOW_ROOT) {
-      shadowRoot = rootElement.attachShadow({ mode: "open" });
-      root = document.createElement("div");
-      root.classList.add("xblock-root");
-      shadowRoot.appendChild(root);
-    }
+    const shadowRoot = rootElement.attachShadow({ mode: "open" });
+    root = document.createElement("div");
+    root.classList.add("xblock-root");
+    shadowRoot.appendChild(root);
     if (styles) {
       const style = document.createElement("style");
       style.textContent = styles;
-      if (shadowRoot) {
-        shadowRoot.appendChild(style);
-      } else {
-        document.head.appendChild(style);
-      }
+      shadowRoot.appendChild(style);
     }
     core.forEach((url) => {
       const link = document.createElement("link");
@@ -176,7 +150,7 @@ export const createXBlockRoot =
         document.head.appendChild(link.cloneNode());
       }
     });
-    createRoot(root).render(
+    return createRoot(root).render(
       <StrictMode>
         <RuntimeContext.Provider value={{ runtime, element: rootElement }}>
           <IntlProvider locale="en">{children}</IntlProvider>

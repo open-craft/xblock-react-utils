@@ -30,20 +30,23 @@
     "format": "oxfmt"
   },
   "devDependencies": {
-    "@types/jquery": "^3.5.34",
+    "@types/jquery": "^4.0.1",
     "@types/jquery-mockjax": "^3.0.0",
     "@types/jsdom": "^30.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "globals": "^17.4.0",
+    "@vitest/coverage-v8": "^5.1.0",
+    "fetch-mock": "^12.6.0",
+    "globals": "^17.14.0",
     "jquery": "^4.0.0",
     "jquery-mockjax": "^3.0.1",
     "jsdom": "^31.0.0",
     "oxfmt": "^0.42.0",
     "oxlint": "^1.92.0",
-    "tsup": "^8.0.0",
-    "typescript": "~5.9.3",
-    "vitest": "^4.1.8"
+    "shadow-dom-testing-library": "^1.14.2",
+    "tsup": "^9.0.0",
+    "typescript": "~6.0.3",
+    "vitest": "5.1.0"
   },
   "peerDependencies": {
     "@testing-library/react": "*",

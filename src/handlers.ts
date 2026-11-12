@@ -50,7 +50,7 @@ export const saveStudioBlock = async <T, R = void>({
   try {
     result = await callServer<R, T>({ url: saveUrl, data });
     runtime.notify("save", { state: "end" });
-  } catch (response: unknown) {
+  } catch (response: any) {
     const message = typeof errorMessage === "function" ? errorMessage(response) : errorMessage;
     runtime.notify("error", {
       title: "Save Error",

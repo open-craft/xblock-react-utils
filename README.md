@@ -17,7 +17,6 @@ pnpm add @opencraft/xblock-react-utils
 | `createXBlockRoot`               | Entry point for mounting a React XBlock. Handles Paragon themes, Shadow DOM, and providers.                                                       |
 | `useHandlerUrl(name)`            | Hook that returns the URL for an XBlock handler.                                                                                                  |
 | `RuntimeContext`                 | React context exposing `runtime` and `element` from the edX platform.                                                                             |
-| `deriveColor(name, value)`       | Validates a hex color and returns a `CSSProperties` object.                                                                                       |
 | `callServer(JQueryAjaxSettings)` | Wrapper for jQuery AJAX calls to XBlock handlers so you can use them with async/await.                                                            |
 | `saveStudioBlock(params)`        | Convenience wrapper for saving XBlock Studio configuration which notifies the runtime on start, end, and error. Uses `callStudio` under the hood. |
 | `XBlockRuntime`, `XBlockConfig`  | TypeScript types for the XBlock runtime and config.                                                                                               |
