@@ -1,6 +1,6 @@
 {
   "name": "@opencraft/xblock-react-utils",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Utilities, hooks and context for build Open edX XBlocks using React",
   "license": "Apache-2.0",
   "files": [
@@ -24,29 +24,37 @@
   "scripts": {
     "prepublishOnly": "pnpm build",
     "build": "tsup src/index.ts src/testing/index.ts --format esm --dts --external vitest",
-    "lint": "oxfmt --check && eslint .",
+    "lint": "oxfmt --check && oxlint .",
+    "lint:fix": "oxlint --fix . && oxfmt",
+    "test": "vitest",
     "format": "oxfmt"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.4",
-    "@types/jquery": "^3.5.0",
+    "@types/jquery": "^4.0.1",
+    "@types/jquery-mockjax": "^3.0.0",
+    "@types/jsdom": "^30.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "eslint": "^9.39.4",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "globals": "^17.4.0",
+    "@vitest/coverage-v8": "^5.1.0",
+    "fetch-mock": "^12.6.0",
+    "globals": "^17.14.0",
+    "jquery": "^4.0.0",
+    "jquery-mockjax": "^3.0.1",
+    "jsdom": "^31.0.0",
     "oxfmt": "^0.42.0",
-    "tsup": "^8.0.0",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.56.1"
+    "oxlint": "^1.92.0",
+    "shadow-dom-testing-library": "^1.14.2",
+    "tsup": "^9.0.0",
+    "typescript": "~6.0.3",
+    "vitest": "5.1.0"
   },
   "peerDependencies": {
     "@testing-library/react": "*",
+    "@types/jquery": "*",
     "react": "*",
     "react-dom": "*",
     "react-intl": "*",
-    "vitest": "*",
-    "@types/jquery": "*"
+    "vitest": "*"
   },
   "peerDependenciesMeta": {
     "vitest": {
