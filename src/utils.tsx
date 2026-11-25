@@ -1,7 +1,7 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { IntlProvider } from "react-intl";
-import type { XBlockConfig, XBlockRuntime } from "./types.ts";
+import type { ThemeConfig, ThemeUrls, XBlockConfig, XBlockRuntime } from "./types.ts";
 import { RuntimeContext } from "./context.ts";
 
 type JsrtFields = Record<`_jsrt${string}`, unknown>;
@@ -41,42 +41,27 @@ export const getRoot = (element: Element | JQuery<Element>): Element => {
   return container;
 };
 
-export interface ThemeUrls {
-  core: {
-    urls: {
-      default: string;
-      brandOverride: string;
-    };
-  };
-  default: {
-    light: string;
-    [key: string]: string;
-  };
-  variants: {
-    [key: string]: {
-      urls: {
-        brandOverride: string;
-      };
-    };
-  };
-}
-
 /**
  * Fetches Paragon theme stylesheet URLs from the MFE config API.
  * Returns `core` and `theme` arrays, each combining the CDN default with an
  * optional brand-override URL pulled from PARAGON_THEME_URLS in the config response.
  * Falls back to CDN-only URLs if the fetch fails.
  */
-const getThemes = async (mfe_config_api_url: string) => {
+const getThemes = (themeConfig?: ThemeConfig | null) => {
   let themeUrls: ThemeUrls | Record<string, never> = {};
-  try {
-    const response = await fetch(mfe_config_api_url);
-    const mfeConfig = await response.json();
-    themeUrls = mfeConfig.PARAGON_THEME_URLS;
-  } catch (error) {
-    console.error("Failed to fetch theme URLs:", error);
+  if (themeConfig) {
+    if (themeConfig.version === "v0-alpha") {
+      console.warn(
+        "Theme configuration is experimental. Your XBlock WILL break upon the next release.",
+      );
+      themeUrls = themeConfig.urls;
+    } else {
+      console.error(
+        `Unsupported theme version, "${themeConfig.version}". Falling back to default theme URLs. You may need a different version of xblock-react-utils.`,
+      );
+    }
   }
-  const variant = themeUrls?.["default"]?.["light"];
+  const variant = themeUrls?.defaults?.light;
   const theme: string[] = [
     "https://cdn.jsdelivr.net/npm/@openedx/paragon@23/dist/light.min.css",
     themeUrls?.["variants"]?.[variant]?.["urls"]?.["brandOverride"],
@@ -120,9 +105,9 @@ interface XBlockRootParams {
 export const createXBlockRoot =
   ({ runtime, element, config, styles }: XBlockRootParams) =>
   async (children: React.ReactNode) => {
-    const { core, theme } = await getThemes(config.mfe_config_api);
+    const { core, theme } = getThemes(config.theme);
     const rootElement = getRoot(element);
-    let root = rootElement;
+    let root: Element;
     const shadowRoot = rootElement.attachShadow({ mode: "open" });
     root = document.createElement("div");
     root.classList.add("xblock-root");
