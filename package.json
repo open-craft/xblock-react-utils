@@ -36,7 +36,6 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitest/coverage-v8": "^5.1.0",
-    "fetch-mock": "^12.6.0",
     "globals": "^17.14.0",
     "jquery": "^4.0.0",
     "jquery-mockjax": "^3.0.1",

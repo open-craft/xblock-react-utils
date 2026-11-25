@@ -3,8 +3,33 @@ export interface XBlockRuntime {
   notify: (action: string, data: object) => void;
 }
 
+export interface ThemeUrls {
+  core: {
+    urls: {
+      default: string;
+      brandOverride: string;
+    };
+  };
+  defaults: {
+    light: string;
+    [key: string]: string;
+  };
+  variants: {
+    [key: string]: {
+      urls: {
+        brandOverride: string;
+      };
+    };
+  };
+}
+
+export interface ThemeConfig {
+  version: string;
+  urls: ThemeUrls;
+}
+
 export interface XBlockConfig {
-  mfe_config_api: string;
+  theme?: ThemeConfig | null;
 }
 
 export interface SaveStudioBlockParams<T = unknown> {

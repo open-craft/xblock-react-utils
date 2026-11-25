@@ -1,16 +1,10 @@
-import fetchMock from "fetch-mock";
-import { afterEach, beforeEach } from "vitest";
+import { afterEach } from "vitest";
 import { jQueryFactory } from "jquery/factory";
 import { JSDOM } from "jsdom";
 // @ts-expect-error Default export not annotated.
 import initMockJax from "jquery-mockjax";
 
-beforeEach(() => {
-  fetchMock.mockGlobal();
-});
-
 afterEach(() => {
-  fetchMock.hardReset();
   $.mockjax.clearAll();
 });
 
