@@ -1,6 +1,6 @@
 {
   "name": "@opencraft/xblock-react-utils",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Utilities, hooks and context for build Open edX XBlocks using React",
   "license": "Apache-2.0",
   "files": [
